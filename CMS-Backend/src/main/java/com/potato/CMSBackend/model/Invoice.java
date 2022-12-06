@@ -18,17 +18,21 @@ public class Invoice {
     private Integer discount;
     @Transient
     private Double grandTotal;
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.EAGER)
     private Client client;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Collection<ServiceEntity> services;
 
     public Invoice() {
     }
 
-    public Invoice(BigInteger number, String remarks, String paymentStatus, Integer discount, Client client, Collection<ServiceEntity> services) {
+    public Invoice(BigInteger number,
+                   String remarks,
+                   String paymentStatus,
+                   Integer discount,
+                   Client client,
+                   Collection<ServiceEntity> services) {
         this.number = number;
         this.remarks = remarks;
         this.paymentStatus = paymentStatus;
@@ -93,7 +97,7 @@ public class Invoice {
 
     public Double getGrandTotal() {
         if(this.getDiscount() != null) {
-            return this.getSubTotal() - ((discount / 100) * this.getSubTotal());
+            return this.getSubTotal() - ((discount / 100.0) * this.getSubTotal());
         }
 
         return this.getSubTotal();
