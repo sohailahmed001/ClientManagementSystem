@@ -1,6 +1,9 @@
 package com.potato.CMSBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
@@ -20,6 +23,9 @@ public class Client {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "username")
     private User user;
+    @OneToMany(mappedBy = "client")
+    @JsonIgnoreProperties("client")
+    Collection<Invoice> invoices;
 
     public Client() {
     }
@@ -32,7 +38,8 @@ public class Client {
                   String address,
                   String email,
                   Boolean isActive,
-                  User user) {
+                  User user,
+                  Collection<Invoice> invoices) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -42,6 +49,7 @@ public class Client {
         this.email = email;
         this.isActive = isActive;
         this.user = user;
+        this.invoices = invoices;
     }
 
     public Long getId() {
@@ -122,5 +130,13 @@ public class Client {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Collection<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Collection<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }

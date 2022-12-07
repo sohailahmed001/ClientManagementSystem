@@ -1,6 +1,30 @@
 <div class="container mt-5">
-  <div class="card text-center" style="color: green; padding: 20px">
-    <h1>You are Admin</h1>
-    <h2>{{ message }}</h2>
+  <div class="row">
+    <div class="col-2 text-center card-item">
+      <a routerLink="/list-clients" style="text-decoration: none">
+        <p-card [style]="{ 'background-color': '#adebeb' }">
+          <i class="pi pi-user" style="font-size: 6rem"></i>
+          <ng-template pTemplate="footer"> Clients </ng-template>
+        </p-card>
+      </a>
+    </div>
+    <div class="col-2 text-center card-item">
+      <p-card [style]="{ 'background-color': '#ff8c66' }">
+        <i class="pi pi-star" style="font-size: 6rem"></i>
+        <ng-template pTemplate="footer"> Services </ng-template>
+      </p-card>
+    </div>
+    <div class="col-2 text-center card-item">
+      <p-card [style]="{ 'background-color': '#9999ff' }">
+        <i class="pi pi-file" style="font-size: 6rem"></i>
+        <ng-template pTemplate="footer"> Invoices </ng-template>
+      </p-card>
+    </div>
+    <div class="col-2 text-center card-item">
+      <p-card [style]="{ 'background-color': '#80ff80' }">
+        <i class="pi pi-cog" style="font-size: 6rem"></i>
+        <ng-template pTemplate="footer"> Users </ng-template>
+      </p-card>
+    </div>
   </div>
 </div>

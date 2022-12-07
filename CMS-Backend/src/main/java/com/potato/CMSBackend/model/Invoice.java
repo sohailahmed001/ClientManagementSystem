@@ -1,5 +1,7 @@
 package com.potato.CMSBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -18,9 +20,10 @@ public class Invoice {
     private Integer discount;
     @Transient
     private Double grandTotal;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    @JsonIgnoreProperties("invoices")
     private Client client;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     Collection<ServiceEntity> services;
 

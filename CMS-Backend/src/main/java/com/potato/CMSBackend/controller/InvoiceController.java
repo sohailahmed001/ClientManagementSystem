@@ -25,7 +25,7 @@ public class InvoiceController {
     }
 
     @PostMapping({"/add"})
-    public Invoice getInvoiceById(@RequestBody Invoice invoice) {
+    public Invoice addInvoice(@RequestBody Invoice invoice) {
         return invoiceService.saveInvoice(invoice);
     }
 }
