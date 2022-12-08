@@ -18,6 +18,13 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { EditClientComponent } from './components/edit-client/edit-client.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { CalendarModule } from 'primeng/calendar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -29,10 +36,12 @@ import { ButtonModule } from 'primeng/button';
     ForbiddenComponent,
     HomeComponent,
     ListClientsComponent,
+    EditClientComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     RouterModule,
@@ -40,6 +49,11 @@ import { ButtonModule } from 'primeng/button';
     CardModule,
     TableModule,
     ButtonModule,
+    InputTextModule,
+    InputTextareaModule,
+    InputSwitchModule,
+    CalendarModule,
+    FileUploadModule,
   ],
   providers: [
     {

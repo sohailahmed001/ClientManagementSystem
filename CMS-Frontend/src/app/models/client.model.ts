@@ -2,10 +2,18 @@ export class Client {
   id: number;
   firstName: string;
   lastName: string;
+  photoUrl: string;
   dob: string;
   primaryContact: string;
   alternateContact: string;
   address: string;
   email: string;
   active: boolean;
+
+  constructor() {
+    this.photoUrl =
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
+
+    this.active = true;
+  }
 }

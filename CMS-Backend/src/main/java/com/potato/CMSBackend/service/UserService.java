@@ -2,6 +2,7 @@ package com.potato.CMSBackend.service;
 
 import com.potato.CMSBackend.dao.RoleDao;
 import com.potato.CMSBackend.dao.UserDao;
+import com.potato.CMSBackend.model.Client;
 import com.potato.CMSBackend.model.Role;
 import com.potato.CMSBackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserService {
     private RoleDao roleDao;
 
     @Autowired
+    private ClientService clientService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public User registerNewUser(User user) {
@@ -29,7 +33,19 @@ public class UserService {
         roles.add(role);
         user.setRole(roles);
         user.setUserPassword(getEncodedPassword(user.getUserPassword()));
+
+        addClient(user.getUserFirstName(), user.getUserLastName(), user);
         return userDao.save(user);
+    }
+
+    private void addClient(String firstName, String lastName, User user) {
+        Client client = new Client();
+
+        client.setFirstName(firstName);
+        client.setLastName(lastName);
+        client.setUser(user);
+
+        this.clientService.addClient(client);
     }
 
     public void initRolesAndUsers() {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -19,9 +20,6 @@ public class ClientService {
     private ClientDao clientDao;
 
     public Client addClient(Client client) {
-        User user = this.userDao.findById(client.getUser().getUsername()).get();
-        client.setUser(user);
-
         return this.clientDao.save(client);
     }
 

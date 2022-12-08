@@ -1,0 +1,126 @@
+<div class="container mt-3 p-5">
+  <form #clientForm="ngForm" (ngSubmit)="onFormSubmit(clientForm)">
+    <div class="row input-row">
+      <div class="form-group col-4">
+        <label>Photo:</label>
+        <p-fileUpload
+          mode="basic"
+          name="photo"
+          [url]="client.photoUrl"
+          maxFileSize="1000000"
+          [auto]="true"
+          chooseLabel="Choose"
+        ></p-fileUpload>
+        <div class="mt-2">
+          <img
+            [src]="client.photoUrl"
+            width="300px"
+            height="200px"
+            style="border-radius: 25px"
+          />
+        </div>
+      </div>
+      <div class="col-6"></div>
+      <div class="col-2" style="margin: auto auto">
+        <button type="submit" class="btn btn-dark" style="width: 70%">
+          Save
+        </button>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="form-group col-4">
+        <label for="firstName">First Name:</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="client.firstName"
+          class="form-control"
+          id="firstName"
+          name="firstName"
+        />
+      </div>
+      <div class="form-group col-4">
+        <label for="lastName">Last Name:</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="client.lastName"
+          class="form-control"
+          id="lastName"
+          name="lastName"
+        />
+      </div>
+      <div class="form-group col-4">
+        <label>Active:</label>
+        <div>
+          <p-inputSwitch
+            [(ngModel)]="client.active"
+            name="active"
+          ></p-inputSwitch>
+        </div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="form-group col-4">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          pInputText
+          [(ngModel)]="client.email"
+          class="form-control"
+          id="email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group col-4">
+        <label for="primaryContact">Primary Contact:</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="client.primaryContact"
+          class="form-control"
+          id="primaryContact"
+          name="primaryContact"
+        />
+      </div>
+      <div class="form-group col-4">
+        <label for="alternateContact">Alternate Contact:</label>
+        <input
+          type="email"
+          pInputText
+          [(ngModel)]="client.alternateContact"
+          class="form-control"
+          id="alternateContact"
+          name="alternateContact"
+        />
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="form-group col-4">
+        <label for="address">Address:</label>
+        <textarea
+          [rows]="5"
+          [cols]="30"
+          pInputTextarea
+          [(ngModel)]="client.address"
+          class="form-control"
+          id="email"
+          name="email"
+          [autoResize]="true"
+        ></textarea>
+      </div>
+      <div class="form-group col-4">
+        <label>Date Of Birth:</label>
+        <div>
+          <p-calendar
+            [(ngModel)]="client.dob"
+            dateFormat="dd.mm.yy"
+            showIcon="true"
+            name="dob"
+          ></p-calendar>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
