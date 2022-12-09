@@ -42,4 +42,10 @@ export class UserService {
 
     return false;
   }
+
+  getUsersContaining(searchText: string) {
+    return this.httpClient.get(
+      `${environment.baseUrl}/getUsersContaining/${searchText}`
+    );
+  }
 }

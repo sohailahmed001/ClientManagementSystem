@@ -2,27 +2,52 @@
   <form #clientForm="ngForm" (ngSubmit)="onFormSubmit(clientForm)">
     <div class="row input-row">
       <div class="form-group col-4">
-        <label>Photo:</label>
-        <p-fileUpload
-          mode="basic"
-          name="photo"
-          [url]="client.photoUrl"
-          maxFileSize="1000000"
-          [auto]="true"
-          chooseLabel="Choose"
-        ></p-fileUpload>
+        <div class="row">
+          <div class="col-2">
+            <label>Photo:</label>
+          </div>
+          <div class="col-2" style="margin-right: 1rem">
+            <button
+              pButton
+              type="button"
+              icon="pi pi-times"
+              (click)="onClearImageClick(photoUpload)"
+            ></button>
+          </div>
+          <div class="col-2">
+            <p-fileUpload
+              #photoUpload
+              mode="basic"
+              name="photo"
+              [url]="client.selectedImageUrl"
+              maxFileSize="10000000"
+              [chooseLabel]="'Choose'"
+              [previewWidth]="0"
+              (onSelect)="onPhotoSelected($event, photoUpload)"
+            ></p-fileUpload>
+          </div>
+        </div>
+
         <div class="mt-2">
           <img
-            [src]="client.photoUrl"
+            [src]="client.imageUrl || client.selectedImageUrl"
             width="300px"
             height="200px"
             style="border-radius: 25px"
           />
         </div>
       </div>
-      <div class="col-6"></div>
-      <div class="col-2" style="margin: auto auto">
-        <button type="submit" class="btn btn-dark" style="width: 70%">
+      <div class="col-4"></div>
+      <div class="col-4" style="margin: auto 0">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          style="width: 30%; margin-right: 2.5rem"
+          (click)="onCancelClick()"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-dark" style="width: 30%">
           Save
         </button>
       </div>
@@ -119,6 +144,21 @@
             showIcon="true"
             name="dob"
           ></p-calendar>
+        </div>
+      </div>
+      <div *ngIf="hasRole(['Admin'])" class="form-group col-4">
+        <label>User:</label>
+        <div>
+          <p-autoComplete
+            [(ngModel)]="client.user"
+            [suggestions]="userOptions"
+            (completeMethod)="searchUsers($event)"
+            [dropdown]="true"
+            field="username"
+            [forceSelection]="true"
+            (onDropdownClick)="searchUsers($event)"
+            name="user"
+          ></p-autoComplete>
         </div>
       </div>
     </div>

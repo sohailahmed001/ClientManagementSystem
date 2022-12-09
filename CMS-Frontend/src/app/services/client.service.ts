@@ -20,10 +20,10 @@ export class ClientService {
     );
   }
 
-  saveClient(client: Client): Observable<any> {
+  saveClient(clientFormData: FormData): Observable<any> {
     return this.httpClient.post(
       `${environment.baseUrl}/api/v1/client/add`,
-      client
+      clientFormData
     );
   }
 }

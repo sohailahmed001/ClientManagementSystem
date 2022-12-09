@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -23,6 +24,11 @@ public class UserController {
     @PostMapping({"/registerNewUser"})
     public User registerNewUser(@RequestBody User user) {
         return userService.registerNewUser(user);
+    }
+
+    @GetMapping({"/getUsersContaining/{text}"})
+    public List<User> getAllUsersContaining(@PathVariable String text) {
+        return this.userService.getAllUsersContaining(text);
     }
 
     @GetMapping({"/forAdmin"})

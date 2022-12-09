@@ -15,6 +15,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private Date dob;
+    private String imageUrl;
     private String primaryContact;
     private String alternateContact;
     private String address;
@@ -39,7 +40,8 @@ public class Client {
                   String email,
                   Boolean isActive,
                   User user,
-                  Collection<Invoice> invoices) {
+                  Collection<Invoice> invoices,
+                  String imageUrl) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
@@ -50,6 +52,7 @@ public class Client {
         this.isActive = isActive;
         this.user = user;
         this.invoices = invoices;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -138,5 +141,13 @@ public class Client {
 
     public void setInvoices(Collection<Invoice> invoices) {
         this.invoices = invoices;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

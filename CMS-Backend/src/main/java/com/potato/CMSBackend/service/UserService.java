@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -33,19 +34,11 @@ public class UserService {
         roles.add(role);
         user.setRole(roles);
         user.setUserPassword(getEncodedPassword(user.getUserPassword()));
-
-        addClient(user.getUserFirstName(), user.getUserLastName(), user);
         return userDao.save(user);
     }
 
-    private void addClient(String firstName, String lastName, User user) {
-        Client client = new Client();
-
-        client.setFirstName(firstName);
-        client.setLastName(lastName);
-        client.setUser(user);
-
-        this.clientService.addClient(client);
+    public List<User> getAllUsersContaining(String text) {
+        return this.userDao.findByUsernameContainingIgnoreCase(text);
     }
 
     public void initRolesAndUsers() {

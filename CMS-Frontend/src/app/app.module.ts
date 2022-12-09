@@ -25,6 +25,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'primeng/fileupload';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     InputSwitchModule,
     CalendarModule,
     FileUploadModule,
+    AutoCompleteModule,
   ],
   providers: [
     {
