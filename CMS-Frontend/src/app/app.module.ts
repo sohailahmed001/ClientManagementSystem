@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -26,6 +26,14 @@ import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ListServicesComponent } from './components/list-services/list-services.component';
+import { EditServiceComponent } from './components/edit-service/edit-service.component';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -38,6 +46,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     HomeComponent,
     ListClientsComponent,
     EditClientComponent,
+    ListServicesComponent,
+    EditServiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,8 +66,15 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     CalendarModule,
     FileUploadModule,
     AutoCompleteModule,
+    ConfirmPopupModule,
+    ToastModule,
+    DialogModule,
+    InputNumberModule,
   ],
   providers: [
+    DatePipe,
+    ConfirmationService,
+    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

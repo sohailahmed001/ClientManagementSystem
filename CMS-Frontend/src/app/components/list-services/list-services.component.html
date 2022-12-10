@@ -1,0 +1,58 @@
+<div class="container p-5">
+  <div class="card p-3 card-div">
+    <header class="text-center page-header">Services Provided</header>
+  </div>
+  <p-table
+    [value]="servicesList"
+    styleClass="p-datatable-gridlines"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <p-button
+        icon="pi pi-plus"
+        label="Create"
+        (click)="showEditServiceDialog = true"
+      ></p-button>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-service>
+      <tr>
+        <td>{{ service.serviceName }}</td>
+        <td>{{ service.description }}</td>
+        <td>{{ service.price | currency : "INR" }}</td>
+        <td>
+          <div class="row">
+            <div class="col-6">
+              <i
+                class="pi pi-pencil btn-action"
+                style="font-size: 1.2rem; cursor: pointer"
+                (click)="onEditClick(service.id)"
+              ></i>
+            </div>
+            <div class="col-6">
+              <i
+                class="pi pi-trash btn-action"
+                style="font-size: 1.2rem; cursor: pointer"
+                (click)="onDeleteClick(service.id)"
+              ></i>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary"></ng-template>
+  </p-table>
+</div>
+<app-edit-service
+  *ngIf="showEditServiceDialog"
+  (closeDialog)="onCloseDialog($event)"
+></app-edit-service>
+<p-confirmPopup></p-confirmPopup>
+<p-toast></p-toast>

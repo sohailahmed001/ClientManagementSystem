@@ -6,6 +6,7 @@ import { EditClientComponent } from './components/edit-client/edit-client.compon
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListClientsComponent } from './components/list-clients/list-clients.component';
+import { ListServicesComponent } from './components/list-services/list-services.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { ClientResolveService } from './services/client-resolve.service';
@@ -37,6 +38,7 @@ const routes: Routes = [
       client: ClientResolveService,
     },
   },
+  { path: 'list-services', component: ListServicesComponent },
 ];
 
 @NgModule({

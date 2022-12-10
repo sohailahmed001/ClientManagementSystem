@@ -1,0 +1,84 @@
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  [style]="{ width: '70vw' }"
+  (onHide)="onHideDialog()"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header" style="width: 100%">
+      <span
+        class="p-2"
+        style="font-family: var(--font-family); font-size: 1.7rem"
+        >{{ title }}</span
+      >
+    </div>
+  </ng-template>
+  <div class="container p-2">
+    <form>
+      <div class="row input-row">
+        <div class="form-group col-8">
+          <label for="serviceName">Service Name:</label>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="service.serviceName"
+            class="form-control"
+            id="serviceName"
+            name="serviceName"
+          />
+        </div>
+        <div class="col-4">
+          <div style="float: right">
+            <label for="price">Price:</label>
+            <div>
+              <p-inputNumber
+                [(ngModel)]="service.price"
+                mode="currency"
+                locale="en-IN"
+                currency="INR"
+                id="price"
+                name="price"
+              ></p-inputNumber>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" style="width: 70%">
+        <label for="description">Description:</label>
+        <textarea
+          [rows]="5"
+          [cols]="30"
+          pInputTextarea
+          [(ngModel)]="service.description"
+          class="form-control"
+          id="description"
+          name="description"
+          [autoResize]="true"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="row">
+      <div class="col-8"></div>
+      <div class="col-4">
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          (click)="onClearClick()"
+          style="background-color: rgba(0, 0, 0, 0.623); margin-right: 2rem"
+          label="Clear"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-save"
+          (click)="onSaveClick()"
+          label="Save"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+<p-toast></p-toast>
