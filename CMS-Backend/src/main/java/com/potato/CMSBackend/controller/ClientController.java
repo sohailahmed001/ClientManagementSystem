@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,7 +19,7 @@ public class ClientController {
 
     @PostMapping(value = {"/add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Client addClient(@RequestPart("client") Client client,
-                            @RequestPart("imageFile") MultipartFile[] files,
+                            @RequestPart(name = "imageFile", required = false) MultipartFile[] files,
                             HttpServletRequest req) {
         return this.clientService.addClient(client, files, req);
     }
@@ -33,5 +32,10 @@ public class ClientController {
     @GetMapping({"/getAll"})
     public List<Client> getClients() {
         return this.clientService.getClients();
+    }
+
+    @DeleteMapping({"/delete/{id}"})
+    public void deleteClientById(@PathVariable Long id) {
+        this.clientService.deleteClient(id);
     }
 }

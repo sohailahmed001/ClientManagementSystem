@@ -7,7 +7,10 @@
           label="Add"
           routerLink="/edit-client"
         ></p-button>
-        <div class="text-center" style="color: var(--primary-color)">
+        <div
+          class="text-center"
+          style="color: var(--primary-color); font-size: 1.4rem"
+        >
           Clients ({{ clients ? clients.length : 0 }})
         </div>
       </div>
@@ -20,6 +23,7 @@
         <th>Email</th>
         <th>Primary Contact</th>
         <th>Active</th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-client>
@@ -46,6 +50,24 @@
             ><b>{{ client.active ? "YES" : "NO" }}</b></span
           >
         </td>
+        <td>
+          <div class="row">
+            <div class="col-6">
+              <i
+                class="pi pi-pencil btn-action"
+                style="font-size: 1.5rem; cursor: pointer"
+                (click)="onEditClick(client.id)"
+              ></i>
+            </div>
+            <div class="col-6">
+              <i
+                class="pi pi-trash btn-action"
+                style="font-size: 1.5rem; cursor: pointer"
+                (click)="onDeleteClick(client.id)"
+              ></i>
+            </div>
+          </div>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
@@ -53,3 +75,5 @@
     </ng-template>
   </p-table>
 </div>
+<p-confirmPopup></p-confirmPopup>
+<p-toast></p-toast>

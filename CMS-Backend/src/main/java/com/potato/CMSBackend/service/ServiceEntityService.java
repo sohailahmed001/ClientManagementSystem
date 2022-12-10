@@ -24,4 +24,8 @@ public class ServiceEntityService {
     public ServiceEntity saveService(ServiceEntity service) {
         return this.serviceEntityDao.save(service);
     }
+
+    public void deleteServiceById(Long id) {
+        this.serviceEntityDao.deleteById(id);
+    }
 }

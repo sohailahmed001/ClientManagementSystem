@@ -1,6 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Client } from '../models/client.model';
 
@@ -8,22 +9,33 @@ import { Client } from '../models/client.model';
   providedIn: 'root',
 })
 export class ClientService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private datePipe: DatePipe) {}
 
   getAllClients(): Observable<any> {
     return this.httpClient.get(`${environment.baseUrl}/api/v1/client/getAll`);
   }
 
   getClientById(id: number): Observable<any> {
-    return this.httpClient.get(
-      `${environment.baseUrl}/api/v1/client/get/${id}`
-    );
+    return this.httpClient
+      .get(`${environment.baseUrl}/api/v1/client/get/${id}`)
+      .pipe(
+        map((client: any) => {
+          client.dob = new Date(client.dob);
+          return client;
+        })
+      );
   }
 
   saveClient(clientFormData: FormData): Observable<any> {
     return this.httpClient.post(
       `${environment.baseUrl}/api/v1/client/add`,
       clientFormData
+    );
+  }
+
+  deleteClientById(id: number): Observable<any> {
+    return this.httpClient.delete(
+      `${environment.baseUrl}/api/v1/client/delete/${id}`
     );
   }
 }

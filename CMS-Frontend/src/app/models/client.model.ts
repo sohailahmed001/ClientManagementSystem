@@ -5,7 +5,7 @@ export class Client {
   firstName: string;
   lastName: string;
   imageUrl: string;
-  dob: string;
+  dob: Date;
   primaryContact: string;
   alternateContact: string;
   address: string;

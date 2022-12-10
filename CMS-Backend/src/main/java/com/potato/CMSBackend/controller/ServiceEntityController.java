@@ -28,4 +28,9 @@ public class ServiceEntityController {
     public ServiceEntity addService(@RequestBody ServiceEntity service) {
         return this.serviceEntityService.saveService(service);
     }
+
+    @DeleteMapping({"/delete/{id}"})
+    public void deleteServiceById(@PathVariable Long id) {
+        this.serviceEntityService.deleteServiceById(id);
+    }
 }

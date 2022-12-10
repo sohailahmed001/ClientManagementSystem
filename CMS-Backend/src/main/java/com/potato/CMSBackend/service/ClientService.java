@@ -57,6 +57,10 @@ public class ClientService {
         return this.clientDao.findAll();
     }
 
+    public void deleteClient(Long id) {
+        this.clientDao.deleteById(id);
+    }
+
     private void processImage(MultipartFile file, Client client) {
         try {
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
