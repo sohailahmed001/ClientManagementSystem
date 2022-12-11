@@ -1,0 +1,24 @@
+.card-div {
+  background-color: rgb(254, 251, 251);
+  border-top: 5px solid var(--primary-color);
+}
+
+.page-header {
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+}
+
+.input-label {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  margin-right: 2rem;
+}
+
+.btn-search {
+  background-color: rgba(26, 26, 26, 0.647);
+  border: none;
+}
+
+.btn-enabled:hover {
+  background-color: rgba(11, 11, 11, 0.77);
+}

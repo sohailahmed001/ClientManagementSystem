@@ -17,10 +17,12 @@
       </a>
     </div>
     <div class="col-2 text-center card-item">
-      <p-card [style]="{ 'background-color': '#9999ff' }">
-        <i class="pi pi-file" style="font-size: 6rem"></i>
-        <ng-template pTemplate="footer"> Invoices </ng-template>
-      </p-card>
+      <a routerLink="/list-invoices" style="text-decoration: none">
+        <p-card [style]="{ 'background-color': '#9999ff' }">
+          <i class="pi pi-file" style="font-size: 6rem"></i>
+          <ng-template pTemplate="footer"> Invoices </ng-template>
+        </p-card>
+      </a>
     </div>
     <div class="col-2 text-center card-item">
       <p-card [style]="{ 'background-color': '#80ff80' }">

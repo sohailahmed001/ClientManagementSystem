@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Client } from '../models/client.model';
+import { ClientResolveService } from './client-resolve.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,20 @@ export class ClientService {
     return this.httpClient.delete(
       `${environment.baseUrl}/api/v1/client/delete/${id}`
     );
+  }
+
+  getClientsContaining(searchText: string) {
+    return this.httpClient
+      .get(`${environment.baseUrl}/api/v1/client/get/containing/${searchText}`)
+      .pipe(
+        map((data: any[]) => {
+          data.forEach(
+            (client) =>
+              (client.description = `${client.firstName} ${client.lastName} - ${client.email}`)
+          );
+
+          return data;
+        })
+      );
   }
 }

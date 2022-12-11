@@ -61,6 +61,14 @@ public class ClientService {
         this.clientDao.deleteById(id);
     }
 
+    public List<Client> getClientsContaining(String text) {
+        return this.clientDao.findByLastNameStartsWithOrFirstNameStartsWithOrEmailStartsWithAllIgnoreCase(
+                text,
+                text,
+                text
+        );
+    }
+
     private void processImage(MultipartFile file, Client client) {
         try {
             String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();

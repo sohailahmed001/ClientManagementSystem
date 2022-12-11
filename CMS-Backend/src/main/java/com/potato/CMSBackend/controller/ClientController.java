@@ -38,4 +38,9 @@ public class ClientController {
     public void deleteClientById(@PathVariable Long id) {
         this.clientService.deleteClient(id);
     }
+
+    @GetMapping({"/get/containing/{text}"})
+    public List<Client> getClientsContaining(@PathVariable String text) {
+        return this.clientService.getClientsContaining(text);
+    }
 }

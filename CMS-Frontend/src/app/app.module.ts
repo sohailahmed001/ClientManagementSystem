@@ -34,6 +34,8 @@ import { ListServicesComponent } from './components/list-services/list-services.
 import { EditServiceComponent } from './components/edit-service/edit-service.component';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ListInvoicesComponent } from './components/list-invoices/list-invoices.component';
+import { EditInvoiceComponent } from './components/edit-invoice/edit-invoice.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     EditClientComponent,
     ListServicesComponent,
     EditServiceComponent,
+    ListInvoicesComponent,
+    EditInvoiceComponent,
   ],
   imports: [
     BrowserModule,

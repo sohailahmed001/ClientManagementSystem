@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="card p-2 text-center mt-3 card-div">
+    <span class="page-header">Search Invoices</span>
+  </div>
+  <div class="text-center mt-2 p-2">
+    <label class="input-label" for="client-search">Client* :</label>
+    <p-autoComplete
+      [(ngModel)]="clientSelected"
+      [suggestions]="clientOptions"
+      (completeMethod)="searchClients($event)"
+      [dropdown]="true"
+      field="description"
+      [forceSelection]="true"
+      s
+      (onDropdownClick)="searchClients($event)"
+      id="client-search"
+      [style]="{ width: '50%', 'margin-right': '2rem' }"
+      placeholder="Search by Name / Email"
+    ></p-autoComplete>
+    <div class="mt-2">
+      <button
+        [disabled]="!clientSelected"
+        pButton
+        type="button"
+        icon="pi pi-search"
+        iconPos="left"
+        label="Search"
+        class="p-button-raised p-button-rounded btn-search"
+        [ngClass]="clientSelected ? 'btn-enabled' : ''"
+        (click)="searchInvoices()"
+      ></button>
+    </div>
+  </div>
+
+  <div *ngIf="invoices" class="card mt-5">
+    <p-table [value]="invoices">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Invoice#</th>
+          <th>Remarks</th>
+          <th>No of Services</th>
+          <th>Sub Total</th>
+          <th>Grand total</th>
+          <th>Payment Status</th>
+          <th>View</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoice>
+        <tr *ngIf="invoices.length >= 1">
+          <td>
+            {{ invoice.number }}
+          </td>
+          <td>
+            {{ invoice.remarks }}
+          </td>
+          <td>
+            {{ invoice.servicesCount }}
+          </td>
+          <td>
+            {{ invoice.subTotal | currency : "INR" }}
+          </td>
+          <td>
+            {{ invoice.grandTotal | currency : "INR" }}
+          </td>
+          <td>
+            {{ invoice.paymentStatus }}
+          </td>
+          <td>
+            <button
+              pButton
+              type="button"
+              icon="pi pi-chevron-right"
+              class="p-button-raised p-button-rounded"
+              (click)="onViewInvoiceClick(invoice.id)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <span
+          *ngIf="invoices.length == 0"
+          style="color: rgba(246, 11, 11, 0.718)"
+          >No Invoices Found!</span
+        >
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<p-toast></p-toast>
