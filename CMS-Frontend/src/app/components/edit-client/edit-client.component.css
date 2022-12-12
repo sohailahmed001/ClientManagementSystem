@@ -10,3 +10,13 @@
 button {
   border: none;
 }
+
+label {
+  color: rgb(126, 124, 124);
+}
+
+.read-only,
+.read-only:focus {
+  outline: none;
+  border: none;
+}

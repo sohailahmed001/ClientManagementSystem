@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,7 +15,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 export class EditClientComponent implements OnInit {
   client: Client = new Client();
   userOptions: any[] = [];
-  pageTitle: string = 'Add Client';
+  pageTitle: string = 'Client Details';
+  readOnly = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,8 +29,10 @@ export class EditClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.client = this.activatedRoute.snapshot.data['client'];
-    this.pageTitle =
-      this.client && this.client.id ? 'Update Client' : 'Add Client';
+    if (!this.readOnly) {
+      this.pageTitle =
+        this.client && this.client.id ? 'Update Client' : 'Add Client';
+    }
 
     console.log(this.client);
   }

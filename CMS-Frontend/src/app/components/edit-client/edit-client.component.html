@@ -11,6 +11,7 @@
           </div>
           <div class="col-2" style="margin-right: 1rem">
             <button
+              *ngIf="!readOnly"
               pButton
               type="button"
               icon="pi pi-times"
@@ -20,6 +21,7 @@
           </div>
           <div class="col-2">
             <p-fileUpload
+              *ngIf="!readOnly"
               #photoUpload
               mode="basic"
               name="photo"
@@ -44,6 +46,7 @@
       <div class="col-4"></div>
       <div class="col-4" style="margin: auto 0">
         <button
+          *ngIf="!readOnly"
           pButton
           type="button"
           icon="pi pi-times"
@@ -51,13 +54,21 @@
           style="background-color: rgba(0, 0, 0, 0.623); margin-right: 2rem"
           label="Cancel"
         ></button>
-        <button pButton type="submit" icon="pi pi-save" label="Save"></button>
+        <button
+          *ngIf="!readOnly"
+          pButton
+          type="submit"
+          icon="pi pi-save"
+          label="Save"
+        ></button>
       </div>
     </div>
     <div class="row input-row">
       <div class="form-group col-4">
         <label for="firstName">First Name:</label>
         <input
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           type="text"
           pInputText
           [(ngModel)]="client.firstName"
@@ -69,6 +80,8 @@
       <div class="form-group col-4">
         <label for="lastName">Last Name:</label>
         <input
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           type="text"
           pInputText
           [(ngModel)]="client.lastName"
@@ -81,9 +94,18 @@
         <label>Active:</label>
         <div>
           <p-inputSwitch
+            *ngIf="!readOnly"
             [(ngModel)]="client.active"
             name="active"
           ></p-inputSwitch>
+          <div
+            *ngIf="readOnly"
+            class="mt-2 fw-bold"
+            style="margin-left: 1rem"
+            [ngStyle]="{ color: client.active ? 'green' : 'red' }"
+          >
+            {{ client.active ? "YES" : "NO" }}
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +113,8 @@
       <div class="form-group col-4">
         <label for="email">Email:</label>
         <input
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           type="email"
           pInputText
           [(ngModel)]="client.email"
@@ -103,6 +127,8 @@
       <div class="form-group col-4">
         <label for="primaryContact">Primary Contact:</label>
         <input
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           type="text"
           pInputText
           [(ngModel)]="client.primaryContact"
@@ -114,6 +140,8 @@
       <div class="form-group col-4">
         <label for="alternateContact">Alternate Contact:</label>
         <input
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           type="email"
           pInputText
           [(ngModel)]="client.alternateContact"
@@ -127,6 +155,8 @@
       <div class="form-group col-4">
         <label for="address">Address:</label>
         <textarea
+          [ngClass]="readOnly ? 'read-only' : ''"
+          [readOnly]="readOnly"
           [rows]="5"
           [cols]="30"
           pInputTextarea
@@ -141,17 +171,22 @@
         <label>Date Of Birth:</label>
         <div>
           <p-calendar
+            *ngIf="!readOnly"
             [(ngModel)]="client.dob"
             dateFormat="dd.mm.yy"
-            showIcon="true"
+            [showIcon]="true"
             name="dob"
           ></p-calendar>
+          <div *ngIf="readOnly" class="mt-2" style="margin-left: 1rem">
+            {{ client.dob | date }}
+          </div>
         </div>
       </div>
       <div *ngIf="hasRole(['Admin'])" class="form-group col-4">
         <label>User:</label>
         <div>
           <p-autoComplete
+            *ngIf="!readOnly"
             [(ngModel)]="client.user"
             [suggestions]="userOptions"
             (completeMethod)="searchUsers($event)"
@@ -161,6 +196,9 @@
             (onDropdownClick)="searchUsers($event)"
             name="user"
           ></p-autoComplete>
+          <div class="mt-2" style="margin-left: 1rem" *ngIf="readOnly">
+            {{ client.user.username }}
+          </div>
         </div>
       </div>
     </div>
