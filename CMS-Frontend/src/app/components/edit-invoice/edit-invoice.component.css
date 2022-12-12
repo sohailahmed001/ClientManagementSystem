@@ -7,3 +7,18 @@
   font-family: var(--font-family);
   font-size: 1.5rem;
 }
+
+.image-cropper {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+img {
+  display: inline;
+  margin: 0 -1.4rem;
+  height: 100%;
+  width: auto;
+}

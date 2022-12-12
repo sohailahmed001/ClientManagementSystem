@@ -4,12 +4,117 @@
   </div>
   <div class="p-3 mt-3">
     <form>
-      <div class="p-3 border bg-light">
-        <span style="color: var(--primary-color)">Client :</span>
-        <span style="margin-left: 2rem"
-          ><b>{{ invoice.client.email }}</b></span
-        >
+      <div class="row p-3 border bg-light">
+        <div class="col-1" style="margin-top: -10px">
+          <div class="mt-2 image-cropper">
+            <img [src]="invoice.client.imageUrl" class="rounded" />
+          </div>
+        </div>
+        <div class="col" style="margin: auto -3rem">
+          <span
+            class="fs-5"
+            style="color: var(--primary-color); margin-left: 2rem"
+          >
+            Client :
+          </span>
+          <span style="margin-left: 2rem"
+            ><b>{{ invoice.client.description }}</b></span
+          >
+        </div>
       </div>
     </form>
+  </div>
+  <div class="p-2 mt-3 bg-dark rounded-top" style="--bs-bg-opacity: 0.76">
+    <span
+      class="fs-5 fw-semibold"
+      style="color: rgb(247, 246, 246); margin-left: 0.6rem"
+    >
+      Services</span
+    >
+  </div>
+  <div class="container mt-4 mb-4">
+    <p-table
+      [value]="invoice.services"
+      styleClass="p-datatable-gridlines"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
+      <ng-template pTemplate="caption"> Services </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>#</th>
+          <th>Service</th>
+          <th>Description</th>
+          <th><span style="float: right">Price</span></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-service let-i="rowIndex+1">
+        <tr>
+          <td style="width: 5%">{{ i }}</td>
+          <td style="width: 25%">{{ service.serviceName }}</td>
+          <td style="width: 45%">{{ service.description }}</td>
+          <td style="width: 25%">
+            <span style="float: right">{{
+              service.price | currency : "INR"
+            }}</span>
+          </td>
+        </tr>
+        <ng-container *ngIf="i == invoice?.services?.length">
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <span class="fw-bold" style="float: right"> Sub Total </span>
+            </td>
+            <td>
+              <span class="fw-bold" style="float: right">{{
+                invoice.subTotal | currency : "INR"
+              }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <span class="fw-bold" style="float: right"> GST </span>
+            </td>
+            <td>
+              <span class="fw-bold" style="float: right">{{
+                invoice.gst | currency : "INR"
+              }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <span class="fw-bold" style="float: right">
+                Discount(
+                <span style="color: green">{{ invoice.discount + " %" }}</span
+                >)
+              </span>
+            </td>
+            <td>
+              <span class="fw-bold" style="float: right">{{
+                "-" + invoice.calcDiscount | currency : "INR"
+              }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td style="background-color: var(--primary-color)">
+              <span class="fw-bold text-white" style="float: right">
+                Grand Total
+              </span>
+            </td>
+            <td style="background-color: var(--primary-color)">
+              <span class="fw-bold text-white" style="float: right">{{
+                invoice.grandTotal | currency : "INR"
+              }}</span>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
   </div>
 </div>

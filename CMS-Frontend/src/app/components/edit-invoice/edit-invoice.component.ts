@@ -25,7 +25,6 @@ export class EditInvoiceComponent implements OnInit {
     this.pageTitle = this.invoice?.id
       ? `Invoice Details - (${this.invoice.number})`
       : 'Add Invoice';
-    console.log(this.invoice);
   }
 
   searchClients(event: any) {

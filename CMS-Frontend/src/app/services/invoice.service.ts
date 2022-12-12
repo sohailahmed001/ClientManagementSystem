@@ -24,8 +24,16 @@ export class InvoiceService {
   }
 
   getInvoiceById(id: number): Observable<any> {
-    return this.httpClient.get(
-      `${environment.baseUrl}/api/v1/invoice/get/${id}`
-    );
+    return this.httpClient
+      .get(`${environment.baseUrl}/api/v1/invoice/get/${id}`)
+      .pipe(
+        map((invoice: any) => {
+          invoice.gst = 0.1 * invoice.subTotal;
+          invoice.calcDiscount = invoice.discount * 0.01 * invoice.subTotal;
+
+          invoice.client.description = `${invoice.client.firstName} ${invoice.client.lastName} - ${invoice.client.email}`;
+          return invoice;
+        })
+      );
   }
 }

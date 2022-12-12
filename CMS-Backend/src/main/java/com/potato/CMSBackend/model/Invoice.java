@@ -99,11 +99,13 @@ public class Invoice {
     }
 
     public Double getGrandTotal() {
+        double grandTotal = this.getSubTotal() + this.getSubTotal() * 0.1;
+
         if(this.getDiscount() != null) {
-            return this.getSubTotal() - ((discount / 100.0) * this.getSubTotal());
+            grandTotal -= (this.discount * 0.01 * this.getSubTotal());
         }
 
-        return this.getSubTotal();
+        return grandTotal;
     }
 
     public void setGrandTotal(Double grandTotal) {
