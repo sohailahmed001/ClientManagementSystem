@@ -18,6 +18,7 @@ public class Invoice {
     @Transient
     private Double subTotal;
     private Integer discount;
+    private Integer gst;
     @Transient
     private Double grandTotal;
     @ManyToOne
@@ -35,12 +36,14 @@ public class Invoice {
                    String paymentStatus,
                    Integer discount,
                    Client client,
+                   Integer gst,
                    Collection<ServiceEntity> services) {
         this.number = number;
         this.remarks = remarks;
         this.paymentStatus = paymentStatus;
         this.discount = discount;
         this.client = client;
+        this.gst = gst;
         this.services = services;
     }
 
@@ -99,13 +102,18 @@ public class Invoice {
     }
 
     public Double getGrandTotal() {
-        double grandTotal = this.getSubTotal() + this.getSubTotal() * 0.1;
+        double gstTotal = 0.0;
+        double discountTotal = 0.0;
 
-        if(this.getDiscount() != null) {
-            grandTotal -= (this.discount * 0.01 * this.getSubTotal());
+        if(this.getGst() != null) {
+            gstTotal =  (this.getGst() * 0.01 * this.getSubTotal());
         }
 
-        return grandTotal;
+        if(this.getDiscount() != null) {
+            discountTotal = (this.getDiscount() * 0.01 * (this.getSubTotal() + gstTotal));
+        }
+
+        return (this.getSubTotal() + gstTotal - discountTotal);
     }
 
     public void setGrandTotal(Double grandTotal) {
@@ -118,6 +126,14 @@ public class Invoice {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Integer getGst() {
+        return gst;
+    }
+
+    public void setGst(Integer gst) {
+        this.gst = gst;
     }
 
     public Collection<ServiceEntity> getServices() {

@@ -22,6 +22,7 @@ export class ClientService {
       .pipe(
         map((client: any) => {
           client.dob = new Date(client.dob);
+          client.description = `${client.firstName} ${client.lastName} - ${client.email}`;
           return client;
         })
       );

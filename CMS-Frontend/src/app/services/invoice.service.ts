@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Client } from '../models/client.model';
+import { Invoice } from '../models/invoice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,12 +28,25 @@ export class InvoiceService {
       .get(`${environment.baseUrl}/api/v1/invoice/get/${id}`)
       .pipe(
         map((invoice: any) => {
-          invoice.gst = 0.1 * invoice.subTotal;
-          invoice.calcDiscount = invoice.discount * 0.01 * invoice.subTotal;
-
+          this.setGstandDiscount(invoice);
           invoice.client.description = `${invoice.client.firstName} ${invoice.client.lastName} - ${invoice.client.email}`;
           return invoice;
         })
       );
+  }
+
+  saveInvoice(invoice: any): Observable<any> {
+    return this.httpClient.post(
+      `${environment.baseUrl}/api/v1/invoice/add`,
+      invoice
+    );
+  }
+
+  setGstandDiscount(invoice: Invoice) {
+    invoice.gst = invoice.gst || 0;
+    invoice.discount = invoice.discount || 0;
+    invoice.calcGst = invoice.gst * 0.01 * invoice.subTotal;
+    invoice.calcDiscount =
+      invoice.discount * 0.01 * (invoice.subTotal + invoice.calcGst);
   }
 }

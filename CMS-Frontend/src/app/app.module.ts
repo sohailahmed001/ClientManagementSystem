@@ -36,6 +36,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ListInvoicesComponent } from './components/list-invoices/list-invoices.component';
 import { EditInvoiceComponent } from './components/edit-invoice/edit-invoice.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { EditInvoiceComponent } from './components/edit-invoice/edit-invoice.com
     ToastModule,
     DialogModule,
     InputNumberModule,
+    DropdownModule,
   ],
   providers: [
     DatePipe,

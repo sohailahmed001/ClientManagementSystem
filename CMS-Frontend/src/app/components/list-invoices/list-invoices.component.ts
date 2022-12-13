@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from 'src/app/models/client.model';
 import { Invoice } from 'src/app/models/invoice.model';
 import { ClientService } from 'src/app/services/client.service';
@@ -11,7 +11,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   templateUrl: './list-invoices.component.html',
   styleUrls: ['./list-invoices.component.css'],
 })
-export class ListInvoicesComponent {
+export class ListInvoicesComponent implements OnInit {
   clientSelected: Client;
   clientOptions: any[] = [];
   invoices: Invoice[];
@@ -20,8 +20,15 @@ export class ListInvoicesComponent {
     private clientService: ClientService,
     private utilsService: UtilsService,
     private invoiceService: InvoiceService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((data) => {
+      this.getClient(data.clientId);
+    });
+  }
 
   searchClients(event: any) {
     this.clientService.getClientsContaining(event.query).subscribe(
@@ -55,5 +62,14 @@ export class ListInvoicesComponent {
 
   onViewInvoiceClick(invoiceId: number) {
     this.router.navigate(['edit-invoice', { id: invoiceId }]);
+  }
+
+  getClient(clientId: any) {
+    if (clientId) {
+      this.clientService.getClientById(clientId).subscribe((response) => {
+        this.clientSelected = response;
+        this.searchInvoices();
+      });
+    }
   }
 }

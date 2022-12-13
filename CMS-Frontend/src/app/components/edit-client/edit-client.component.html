@@ -44,9 +44,8 @@
         </div>
       </div>
       <div class="col-4"></div>
-      <div class="col-4" style="margin: auto 0">
+      <div *ngIf="!readOnly" class="col-4" style="margin: auto 0">
         <button
-          *ngIf="!readOnly"
           pButton
           type="button"
           icon="pi pi-times"
@@ -54,13 +53,7 @@
           style="background-color: rgba(0, 0, 0, 0.623); margin-right: 2rem"
           label="Cancel"
         ></button>
-        <button
-          *ngIf="!readOnly"
-          pButton
-          type="submit"
-          icon="pi pi-save"
-          label="Save"
-        ></button>
+        <button pButton type="submit" icon="pi pi-save" label="Save"></button>
       </div>
     </div>
     <div class="row input-row">

@@ -8,3 +8,11 @@
   border-radius: 5px;
   padding: 7px;
 }
+
+button {
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+}
