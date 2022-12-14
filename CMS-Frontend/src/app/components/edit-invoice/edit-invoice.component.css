@@ -9,6 +9,8 @@
 }
 
 .image-cropper {
+  display: flex;
+  justify-content: center;
   width: 60px;
   height: 60px;
   position: relative;
@@ -18,7 +20,7 @@
 
 img {
   display: inline;
-  margin: 0 -1.4rem;
+  margin: 0 auto;
   height: 100%;
   width: auto;
 }

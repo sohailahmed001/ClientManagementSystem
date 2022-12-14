@@ -47,8 +47,9 @@ export class EditClientComponent implements OnInit {
     this.clientService.saveClient(this.prepareFormData(this.client)).subscribe(
       (response) => {
         console.log(response);
-        this.getClientById(response.id);
+        this.client = response;
         this.utilsService.showSuccessMessage('Saved Client Successfully');
+        this.utilsService.redirectTo('/edit-client', 'id', this.client.id);
       },
       (error) => {
         console.log(error);
