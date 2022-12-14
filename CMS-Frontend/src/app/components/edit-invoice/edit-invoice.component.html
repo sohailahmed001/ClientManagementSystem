@@ -7,208 +7,269 @@
       <div class="row p-3 border bg-light">
         <div class="col-1" style="margin-top: -10px">
           <div class="mt-2 image-cropper">
-            <img [src]="invoice.client.imageUrl" class="rounded" />
+            <img [src]="invoice.client?.imageUrl" class="rounded" />
           </div>
         </div>
-        <div class="col" style="margin: auto -3rem">
+        <div class="col-7" style="margin: auto -3rem">
           <span
             class="fs-5"
             style="color: var(--primary-color); margin-left: 2rem"
           >
             Client :
           </span>
-          <span style="margin-left: 2rem"
-            ><b>{{ invoice.client.description }}</b></span
+          <p-autoComplete
+            *ngIf="!readOnly"
+            [(ngModel)]="invoice.client"
+            [suggestions]="clientOptions"
+            (completeMethod)="searchClients($event)"
+            [dropdown]="true"
+            field="description"
+            [forceSelection]="true"
+            (onDropdownClick)="searchClients($event)"
+            name="client-search"
+            [style]="{ width: '80%', 'margin-right': '2rem' }"
+            placeholder="Search by Name / Email"
+          ></p-autoComplete>
+          <span *ngIf="readOnly" style="margin-left: 2rem">
+            <b>{{ invoice.client.description }}</b></span
           >
+        </div>
+        <div *ngIf="!readOnly && !invoice.number" class="col-4">
+          <span style="float: right">
+            <label class="me-2 text-secondary" for="number"
+              >Invoice No.(#):</label
+            >
+            <p-inputNumber
+              [useGrouping]="false"
+              [(ngModel)]="invoice.number"
+              name="number"
+            ></p-inputNumber>
+          </span>
         </div>
       </div>
     </form>
   </div>
-  <div class="p-2 mt-3 bg-dark rounded-top" style="--bs-bg-opacity: 0.76">
-    <span
-      class="fs-5 fw-semibold"
-      style="color: rgb(247, 246, 246); margin-left: 0.6rem"
-    >
-      Services</span
-    >
-  </div>
-  <div class="container mt-4 mb-4">
-    <p-table
-      [value]="invoice.services"
-      styleClass="p-datatable-gridlines"
-      [tableStyle]="{ 'min-width': '50rem' }"
-    >
-      <ng-template pTemplate="caption">
+  <ng-container *ngIf="invoice.client?.id">
+    <div class="p-2 mt-3 bg-dark rounded-top" style="--bs-bg-opacity: 0.76">
+      <span
+        class="fs-5 fw-semibold"
+        style="color: rgb(247, 246, 246); margin-left: 0.6rem"
+      >
+        Services</span
+      >
+    </div>
+    <div class="container mt-4 mb-4">
+      <p-table
+        [value]="invoice.services"
+        styleClass="p-datatable-gridlines"
+        [tableStyle]="{ 'min-width': '50rem' }"
+      >
+        <ng-template pTemplate="caption">
+          <i class="pi pi-wrench" style="font-size: 1.4rem"></i>
+
+          <span *ngIf="!readOnly">
+            <span class="ms-4 fw-lighter fs-5"> Select Service to add: </span>
+            <p-dropdown
+              class="ms-2"
+              [style]="{ border: '1px solid #bbb' }"
+              [options]="services"
+              [(ngModel)]="selectedService"
+              optionLabel="serviceName"
+            ></p-dropdown>
+            <button
+              class="ms-2"
+              pButton
+              type="button"
+              icon="pi pi-plus"
+              label="Add"
+              (click)="onAddServiceClick()"
+            ></button>
+          </span>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th>Service</th>
+            <th>Description</th>
+            <th><span style="float: right">Price</span></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-service let-i="rowIndex+1">
+          <tr>
+            <td style="width: 7%">
+              <span *ngIf="!readOnly"
+                ><i
+                  class="pi pi-minus-circle me-4"
+                  style="
+                    font-size: 1.2rem;
+                    color: rgba(186, 6, 6, 0.764);
+                    cursor: pointer;
+                  "
+                  (click)="onRemoveServiceClick(service.id)"
+                ></i> </span
+              >{{ i }}
+            </td>
+            <td style="width: 25%">{{ service.serviceName }}</td>
+            <td style="width: 45%">{{ service.description }}</td>
+            <td style="width: 23%">
+              <span style="float: right">{{
+                service.price | currency : "INR"
+              }}</span>
+            </td>
+          </tr>
+          <ng-container *ngIf="i == invoice?.services?.length">
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <span class="fw-bold" style="float: right"> Sub Total </span>
+              </td>
+              <td>
+                <span class="fw-bold" style="float: right">{{
+                  invoice.subTotal | currency : "INR"
+                }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <span class="fw-bold" style="float: right">
+                  GST(
+                  <span style="color: rgba(170, 5, 5, 0.714)">
+                    <p-inputNumber
+                      *ngIf="!readOnly"
+                      [(ngModel)]="invoice.gst"
+                      suffix="%"
+                      [min]="0"
+                      [max]="100"
+                      [size]="1"
+                      (onInput)="onGstChange($event)"
+                    ></p-inputNumber>
+
+                    <span *ngIf="readOnly">
+                      {{ (invoice.gst || 0) + "%" }}</span
+                    ></span
+                  >
+                  )
+                </span>
+              </td>
+              <td>
+                <span class="fw-bold" style="float: right">{{
+                  invoice.calcGst | currency : "INR"
+                }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <span class="fw-bold" style="float: right">
+                  Discount(
+                  <span style="color: green">
+                    <p-inputNumber
+                      *ngIf="!readOnly"
+                      [(ngModel)]="invoice.discount"
+                      suffix="%"
+                      [min]="0"
+                      [max]="100"
+                      [size]="1"
+                      (onInput)="onDiscountChange($event)"
+                    ></p-inputNumber>
+
+                    <span *ngIf="readOnly">
+                      {{ (invoice.discount || 0) + "%" }}</span
+                    ></span
+                  >
+                  )
+                </span>
+              </td>
+              <td>
+                <span class="fw-bold" style="float: right">{{
+                  "-" + invoice.calcDiscount | currency : "INR"
+                }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td style="background-color: var(--primary-color)">
+                <span class="fw-bold text-white" style="float: right">
+                  Grand Total
+                </span>
+              </td>
+              <td style="background-color: var(--primary-color)">
+                <span class="fw-bold text-white" style="float: right">{{
+                  invoice.grandTotal | currency : "INR"
+                }}</span>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="border bg-light p-4 me-2 ms-2">
+      <div class="row">
+        <div class="col">
+          <div class="row">
+            <span class="col-3 text-secondary fs-6">Remarks:</span>
+            <div class="col-9">
+              <textarea
+                [ngClass]="readOnly ? 'read-only' : ''"
+                [readOnly]="readOnly"
+                pInputTextarea
+                [(ngModel)]="invoice.remarks"
+                [rows]="5"
+                [cols]="45"
+                style="resize: none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-4"></div>
+        <div class="col" style="float: right">
+          <div class="row">
+            <span class="col-4 text-secondary fs-6">Payment Status:</span>
+            <div class="col-8">
+              <input
+                [ngClass]="readOnly ? 'read-only' : ''"
+                [readOnly]="readOnly"
+                type="text"
+                pInputText
+                [(ngModel)]="invoice.paymentStatus"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4" style="max-width: 20%; margin: auto auto">
         <button
+          *ngIf="!readOnly"
           pButton
           type="button"
-          icon="pi pi-plus"
-          label="Add Service"
+          icon="pi pi-times"
+          (click)="onCancelClick()"
+          style="background-color: rgba(0, 0, 0, 0.623); margin-right: 2rem"
+          label="Cancel"
         ></button>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th>#</th>
-          <th>Service</th>
-          <th>Description</th>
-          <th><span style="float: right">Price</span></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-service let-i="rowIndex+1">
-        <tr>
-          <td style="width: 5%">{{ i }}</td>
-          <td style="width: 25%">{{ service.serviceName }}</td>
-          <td style="width: 45%">{{ service.description }}</td>
-          <td style="width: 25%">
-            <span style="float: right">{{
-              service.price | currency : "INR"
-            }}</span>
-          </td>
-        </tr>
-        <ng-container *ngIf="i == invoice?.services?.length">
-          <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <span class="fw-bold" style="float: right"> Sub Total </span>
-            </td>
-            <td>
-              <span class="fw-bold" style="float: right">{{
-                invoice.subTotal | currency : "INR"
-              }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <span class="fw-bold" style="float: right">
-                GST(
-                <span style="color: rgba(170, 5, 5, 0.714)">
-                  <p-inputNumber
-                    *ngIf="!readOnly"
-                    [(ngModel)]="invoice.gst"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    [size]="1"
-                    (onInput)="onGstChange($event)"
-                  ></p-inputNumber>
-
-                  <span *ngIf="readOnly">
-                    {{ (invoice.gst || 0) + "%" }}</span
-                  ></span
-                >
-                )
-              </span>
-            </td>
-            <td>
-              <span class="fw-bold" style="float: right">{{
-                invoice.calcGst | currency : "INR"
-              }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>
-              <span class="fw-bold" style="float: right">
-                Discount(
-                <span style="color: green">
-                  <p-inputNumber
-                    *ngIf="!readOnly"
-                    [(ngModel)]="invoice.discount"
-                    suffix="%"
-                    [min]="0"
-                    [max]="100"
-                    [size]="1"
-                    (onInput)="onDiscountChange($event)"
-                  ></p-inputNumber>
-
-                  <span *ngIf="readOnly">
-                    {{ (invoice.discount || 0) + "%" }}</span
-                  ></span
-                >
-                )
-              </span>
-            </td>
-            <td>
-              <span class="fw-bold" style="float: right">{{
-                "-" + invoice.calcDiscount | currency : "INR"
-              }}</span>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td style="background-color: var(--primary-color)">
-              <span class="fw-bold text-white" style="float: right">
-                Grand Total
-              </span>
-            </td>
-            <td style="background-color: var(--primary-color)">
-              <span class="fw-bold text-white" style="float: right">{{
-                invoice.grandTotal | currency : "INR"
-              }}</span>
-            </td>
-          </tr>
-        </ng-container>
-      </ng-template>
-    </p-table>
-  </div>
-  <div class="border bg-light p-4 me-2 ms-2">
-    <div class="row">
-      <div class="col">
-        <div class="row">
-          <span class="col-3 text-secondary fs-6">Remarks:</span>
-          <div class="col-9">
-            <textarea
-              [ngClass]="readOnly ? 'read-only' : ''"
-              [readOnly]="readOnly"
-              pInputTextarea
-              [(ngModel)]="invoice.remarks"
-              [rows]="5"
-              [cols]="45"
-            ></textarea>
-          </div>
-        </div>
-      </div>
-      <div class="col-4"></div>
-      <div class="col" style="float: right">
-        <div class="row">
-          <span class="col-4 text-secondary fs-6">Payment Status:</span>
-          <div class="col-8">
-            <input
-              [ngClass]="readOnly ? 'read-only' : ''"
-              [readOnly]="readOnly"
-              type="text"
-              pInputText
-              [(ngModel)]="invoice.paymentStatus"
-            />
-          </div>
-        </div>
+        <button
+          *ngIf="!readOnly"
+          pButton
+          type="button"
+          icon="pi pi-save"
+          label="Save"
+          (click)="onSaveClick()"
+        ></button>
+        <button
+          *ngIf="readOnly"
+          pButton
+          type="button"
+          icon="pi pi-chevron-left"
+          label="Back"
+          (click)="onCancelClick()"
+          style="background-color: rgba(0, 0, 0, 0.623)"
+        ></button>
       </div>
     </div>
-    <div
-      *ngIf="!readOnly"
-      class="mt-4"
-      style="max-width: 20%; margin: auto auto"
-    >
-      <button
-        pButton
-        type="button"
-        icon="pi pi-times"
-        (click)="onCancelClick()"
-        style="background-color: rgba(0, 0, 0, 0.623); margin-right: 2rem"
-        label="Cancel"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-save"
-        label="Save"
-        (click)="onSaveClick()"
-      ></button>
-    </div>
-  </div>
+  </ng-container>
 </div>

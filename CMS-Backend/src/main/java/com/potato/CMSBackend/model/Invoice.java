@@ -105,15 +105,15 @@ public class Invoice {
         double gstTotal = 0.0;
         double discountTotal = 0.0;
 
-        if(this.getGst() != null) {
-            gstTotal =  (this.getGst() * 0.01 * this.getSubTotal());
+        if(getGst() != null) {
+            gstTotal =  (getGst() * 0.01 * getSubTotal());
         }
 
         if(this.getDiscount() != null) {
-            discountTotal = (this.getDiscount() * 0.01 * (this.getSubTotal() + gstTotal));
+            discountTotal = (getDiscount() * 0.01 * (getSubTotal() + gstTotal));
         }
 
-        return (this.getSubTotal() + gstTotal - discountTotal);
+        return (getSubTotal() + gstTotal - discountTotal);
     }
 
     public void setGrandTotal(Double grandTotal) {
